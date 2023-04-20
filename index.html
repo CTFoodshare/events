@@ -48,7 +48,7 @@
       var twoWeeks = now.getTime() + (14 * 24 * 60 * 60 * 1000);
       if (eventDate.getTime() < twoWeeks) {           
           var lat = parseFloat(event.Lat);
-          var lon = parseFloat(event.Lon);
+          var lon = parseFloat(event.Lon);}
           if (!isNaN(Lat) && !isNaN(Lon)) { // Check if lat and lon are valid numbers
             var marker = L.marker([lat, lon]).bindPopup('<b>' + event.Title + '</b><br>' + event.Description);
             markers.addLayer(marker);

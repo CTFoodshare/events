@@ -41,9 +41,14 @@
       header: true,
       complete: function(results) {
         // Loop through each event and add a marker to the map
-        results.data.forEach(function(event) {
-          var lat = parseFloat(event.lat);
-          var lon = parseFloat(event.lon);
+        results.data.forEach(function(event) 
+                  // check if the event is within the next two weeks
+      var eventDate = new Date(event.date);
+      var now = new Date();
+      var twoWeeks = now.getTime() + (14 * 24 * 60 * 60 * 1000);
+      if (eventDate.getTime() < twoWeeks) {           
+          var lat = parseFloat(event.Lat);
+          var lon = parseFloat(event.Lon);
           if (!isNaN(lat) && !isNaN(lon)) { // Check if lat and lon are valid numbers
             var marker = L.marker([lat, lon]).bindPopup('<b>' + event.title + '</b><br>' + event.description);
             markers.addLayer(marker);

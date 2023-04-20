@@ -49,8 +49,8 @@
       if (eventDate.getTime() < twoWeeks) {           
           var lat = parseFloat(event.Lat);
           var lon = parseFloat(event.Lon);
-          if (!isNaN(lat) && !isNaN(lon)) { // Check if lat and lon are valid numbers
-            var marker = L.marker([lat, lon]).bindPopup('<b>' + event.title + '</b><br>' + event.description);
+          if (!isNaN(Lat) && !isNaN(Lon)) { // Check if lat and lon are valid numbers
+            var marker = L.marker([lat, lon]).bindPopup('<b>' + event.Title + '</b><br>' + event.Description);
             markers.addLayer(marker);
           }
         });

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Events Map</title>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+  <!-- Leaflet JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+  <!-- Leaflet marker cluster CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.Default.css" />
+  <!-- Leaflet marker cluster JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/leaflet.markercluster.js"></script>
+  <!-- Papa Parse JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js"></script>
+  <!-- CSS styles for the map container -->
+  <style>
+    #map {
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Events Map</h1>
+  <div id="map"></div>
+  <script>
+    // Initialize the Leaflet map
+    var map = L.map('map').setView([0, 0], 2); // Set initial map view and zoom level
+
+    // Add the Tile Layer to the map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Create a marker cluster group for the events
+    var markers = L.markerClusterGroup();
+
+    // Load the CSV file using Papa Parse
+    Papa.parse('events.csv', {
+      download: true,
+      header: true,
+      complete: function(results) {
+        // Loop through each event and add a marker to the map
+        results.data.forEach(function(event) {
+          var lat = parseFloat(event.lat);
+          var lon = parseFloat(event.lon);
+          if (!isNaN(lat) && !isNaN(lon)) { // Check if lat and lon are valid numbers
+            var marker = L.marker([lat, lon]).bindPopup('<b>' + event.title + '</b><br>' + event.description);
+            markers.addLayer(marker);
+          }
+        });
+
+        // Add the marker cluster group to the map
+        map.addLayer(markers);
+      }
+    });
+  </script>
+</body>
+</html>
+
